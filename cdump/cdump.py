@@ -254,8 +254,8 @@ class ModelBin(object):
      """Each record in the fortran binary begins and ends with 4 bytes which specify the length of the record.
      These bytes are called pad below. They are not used here, but are thrown out. 
      The following block defines a numpy dtype object for each record in the binary file. """
-     real4 ='>f'
-     int4  ='>i'
+     real4 ='>f4'
+     int4  ='>i4'
      int2  ='>i2'
      char4 ='>a4'
 
