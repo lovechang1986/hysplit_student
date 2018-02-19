@@ -214,6 +214,7 @@ class ModelBin(object):
       #TO DO look at latlon grid. Find concentration at only a location
       # Find i,j, indx corresponding to latlon location
       ##not functional yet.
+      # Nearest grid or Bilinear interpolater
       lat, lon = get_latlon(grid=0)
       lat = np.array(lat)
       lon = np.array(lon)
@@ -227,8 +228,8 @@ class ModelBin(object):
       
   def get_latlon(self, grid=0):
       """ returns latitude and longitude. if grid=1 then returns 2d arrays of latittude and longitude. Otherwise returns a list.""" 
-      lat = np.arange(self.llcrnr_lat, self.llcrnr_lat+ self.nlat * self.dlat, self.dlat)
-      lon = np.arange(self.llcrnr_lon, self.llcrnr_lon+ self.nlon * self.dlon, self.dlon)
+      lat = np.arange(self.llcrnr_lat, self.llcrnr_lat+ self.nlat.astype(self.dlat.dtype) * self.dlat, self.dlat)
+      lon = np.arange(self.llcrnr_lon, self.llcrnr_lon+ self.nlon.astype(self.dlon.dtype) * self.dlon, self.dlon)
       #if 'lat' not in self.concframe.columns:
       #    flat = lambda x : lat[x-1]
       #    flon = lambda x : lon[x-1]
@@ -237,6 +238,8 @@ class ModelBin(object):
       if grid ==0:
            return list(self.concframe['lat']) , list(self.concframe['lon'])
       else:
+           # should be equal to lon2d, lat2d = np.meshgrid(lon, lat)
+           lon2d, lat2d = np.meshgrid(lon, lat)
            temp1 = np.zeros((lat.shape[0], lon.shape[0]))
            temp2 = np.zeros((lat.shape[0], lon.shape[0]))
            
